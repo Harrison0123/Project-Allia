@@ -11,11 +11,24 @@ int main() {
     Allia::initializeSystem();
 
     std::cout << "AI Core: Initializing...\n";
-    std::cout << Allia::AI::respond("hello") << "\n";
-
     std::cout << "Security Core: Initializing...\n";
     std::cout << "Hardware Core: Initializing...\n";
-    std::cout << "System: READY\n";
+    std::cout << "System: READY\n\n";
+
+    std::cout << "Talk to Allia (type 'exit' to quit):\n";
+
+    std::string userInput;
+    while (true) {
+        std::cout << "> ";
+        std::getline(std::cin, userInput);
+
+        std::string reply = Allia::AI::respond(userInput);
+        std::cout << reply << "\n";
+
+        if (userInput == "exit") {
+            break;
+        }
+    }
 
     return 0;
 }
