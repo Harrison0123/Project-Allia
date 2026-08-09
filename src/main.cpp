@@ -1,6 +1,7 @@
 #include <iostream>
 #include "core/system.h"
 #include "ai/assistant.h"
+#include "security/auth.h"
 
 int main() {
     std::cout << "====================================\n";
@@ -15,6 +16,16 @@ int main() {
     std::cout << "Hardware Core: Initializing...\n";
     std::cout << "System: READY\n\n";
 
+    std::string passwordAttempt;
+    std::cout << "Enter password to access Allia: ";
+    std::getline(std::cin, passwordAttempt);
+
+    if (!Allia::Security::authenticate(passwordAttempt)) {
+        std::cout << "Access denied. Shutting down.\n";
+        return 0;
+    }
+
+    std::cout << "Access granted.\n\n";
     std::cout << "Talk to Allia (type 'exit' to quit):\n";
 
     std::string userInput;
