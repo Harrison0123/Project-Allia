@@ -21,8 +21,18 @@ namespace AI {
     }
 
     std::string extractName(std::string input) {
-        size_t pos = input.find("my name is");
-        std::string name = input.substr(pos + 11);
+        size_t pos;
+        int skipLength;
+
+        if (input.find("my name is") != std::string::npos) {
+            pos = input.find("my name is");
+            skipLength = 11;
+        } else {
+            pos = input.find("call me");
+            skipLength = 7;
+        }
+
+        std::string name = input.substr(pos + skipLength);
         while (!name.empty() && name[0] == ' ') {
             name.erase(0, 1);
         }
@@ -33,7 +43,7 @@ namespace AI {
         input = toLower(input);
 
         // ---------- Memory ----------
-        if (input.find("my name is") != std::string::npos) {
+        if (input.find("my name is") != std::string::npos || input.find("call me") != std::string::npos) {
             std::string name = extractName(input);
             if (!name.empty()) {
                 userName = name;
@@ -42,9 +52,14 @@ namespace AI {
             return "I didn't catch a name there.";
         }
 
+        else if (input.find("forget me") != std::string::npos || input.find("forget my name") != std::string::npos) {
+            userName = "";
+            return "Okay, I've forgotten your name.";
+        }
+
         else if (input.find("what is my name") != std::string::npos) {
             if (userName.empty()) {
-                return "I don't know your name yet. Tell me with 'my name is ...'";
+                return "I don't know your name yet. Tell me with 'my name is ...' or 'call me ...'";
             } else {
                 return "Your name is " + userName + ".";
             }
