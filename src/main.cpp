@@ -2,6 +2,7 @@
 #include "core/system.h"
 #include "ai/assistant.h"
 #include "security/auth.h"
+#include "hardware/device.h"
 
 int main() {
     std::cout << "====================================\n";
@@ -14,6 +15,7 @@ int main() {
     std::cout << "AI Core: Initializing...\n";
     std::cout << "Security Core: Initializing...\n";
     std::cout << "Hardware Core: Initializing...\n";
+    std::cout << Allia::Hardware::checkMicrophone() << "\n";
     std::cout << "System: READY\n\n";
 
     std::string passwordAttempt;
