@@ -3,11 +3,11 @@
 #include "ai/assistant.h"
 #include "security/auth.h"
 #include "hardware/device.h"
+#include "ui/interface.h"
 
 int main() {
-    std::cout << "====================================\n";
-    std::cout << "           PROJECT ALLIA\n";
-    std::cout << "====================================\n";
+    Allia::UI::showWelcomeScreen();
+
     std::cout << "Allia OS is starting...\n";
 
     Allia::initializeSystem();
