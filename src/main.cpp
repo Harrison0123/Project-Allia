@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ctime>
 #include "core/system.h"
 #include "ai/assistant.h"
 #include "security/auth.h"
@@ -6,6 +7,8 @@
 #include "ui/interface.h"
 
 int main() {
+    srand(time(0));
+
     Allia::UI::showWelcomeScreen();
 
     std::cout << "Allia OS is starting...\n";

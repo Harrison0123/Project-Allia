@@ -1,4 +1,6 @@
 #include <string>
+#include <vector>
+#include <cstdlib>
 #include <algorithm>
 #include <cctype>
 #include "assistant.h"
@@ -11,17 +13,26 @@ namespace AI {
         return text;
     }
 
+    std::string pickRandom(std::vector<std::string> options) {
+        int index = rand() % options.size();
+        return options[index];
+    }
+
     std::string respond(std::string input) {
         input = toLower(input);
 
         // ---------- Greetings ----------
-        if (input.find("hello") != std::string::npos) {
-            return "Hi! I'm Allia.";
-        } else if (input.find("hi") != std::string::npos) {
-            return "Hey there!";
-        } else if (input.find("hey") != std::string::npos) {
-            return "Hey! What's up?";
-        } else if (input.find("good morning") != std::string::npos) {
+        if (input.find("hello") != std::string::npos || input.find("hi") != std::string::npos || input.find("hey") != std::string::npos) {
+            std::vector<std::string> greetings = {
+                "Hi! I'm Allia.",
+                "Hey there!",
+                "Hello! Good to hear from you.",
+                "Hey! What's going on?"
+            };
+            return pickRandom(greetings);
+        }
+
+        else if (input.find("good morning") != std::string::npos) {
             return "Good morning! Ready to build?";
         } else if (input.find("good night") != std::string::npos) {
             return "Good night! I'll keep watch while you're away.";
@@ -29,8 +40,15 @@ namespace AI {
 
         // ---------- Small talk ----------
         else if (input.find("how are you") != std::string::npos) {
-            return "I'm doing well, thank you!";
-        } else if (input.find("what's up") != std::string::npos) {
+            std::vector<std::string> howAreYou = {
+                "I'm doing well, thank you!",
+                "All systems running smoothly, thanks for asking!",
+                "Pretty good! Just monitoring things here."
+            };
+            return pickRandom(howAreYou);
+        }
+
+        else if (input.find("what's up") != std::string::npos) {
             return "Not much, just running my core systems.";
         } else if (input.find("are you okay") != std::string::npos) {
             return "All systems are stable.";
@@ -96,13 +114,16 @@ namespace AI {
         }
 
         // ---------- Farewells ----------
-        else if (input.find("bye") != std::string::npos) {
-            return "Goodbye! See you next time.";
-        } else if (input.find("goodbye") != std::string::npos) {
-            return "Take care!";
-        } else if (input.find("see you later") != std::string::npos) {
-            return "See you soon!";
-        } else if (input.find("exit") != std::string::npos) {
+        else if (input.find("bye") != std::string::npos || input.find("goodbye") != std::string::npos || input.find("see you later") != std::string::npos) {
+            std::vector<std::string> farewells = {
+                "Goodbye! See you next time.",
+                "Take care!",
+                "See you soon!"
+            };
+            return pickRandom(farewells);
+        }
+
+        else if (input.find("exit") != std::string::npos) {
             return "Shutting down conversation, not the system.";
         }
 
