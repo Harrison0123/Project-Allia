@@ -22,11 +22,25 @@ int main() {
     std::cout << "System: READY\n\n";
 
     std::string passwordAttempt;
-    std::cout << "Enter password to access Allia: ";
-    std::getline(std::cin, passwordAttempt);
+    int attempts = 0;
+    const int maxAttempts = 3;
+    bool accessGranted = false;
 
-    if (!Allia::Security::authenticate(passwordAttempt)) {
-        std::cout << "Access denied. Shutting down.\n";
+    while (attempts < maxAttempts) {
+        std::cout << "Enter password to access Allia: ";
+        std::getline(std::cin, passwordAttempt);
+
+        if (Allia::Security::authenticate(passwordAttempt)) {
+            accessGranted = true;
+            break;
+        }
+
+        attempts++;
+        std::cout << "Incorrect password. Attempts remaining: " << (maxAttempts - attempts) << "\n";
+    }
+
+    if (!accessGranted) {
+        std::cout << "Too many failed attempts. Shutting down.\n";
         return 0;
     }
 
