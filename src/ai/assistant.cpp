@@ -8,6 +8,8 @@
 namespace Allia {
 namespace AI {
 
+    std::string userName = "";
+
     std::string toLower(std::string text) {
         std::transform(text.begin(), text.end(), text.begin(), ::tolower);
         return text;
@@ -18,17 +20,53 @@ namespace AI {
         return options[index];
     }
 
+    std::string extractName(std::string input) {
+        size_t pos = input.find("my name is");
+        std::string name = input.substr(pos + 11);
+        while (!name.empty() && name[0] == ' ') {
+            name.erase(0, 1);
+        }
+        return name;
+    }
+
     std::string respond(std::string input) {
         input = toLower(input);
 
+        // ---------- Memory ----------
+        if (input.find("my name is") != std::string::npos) {
+            std::string name = extractName(input);
+            if (!name.empty()) {
+                userName = name;
+                return "Nice to meet you, " + userName + "!";
+            }
+            return "I didn't catch a name there.";
+        }
+
+        else if (input.find("what is my name") != std::string::npos) {
+            if (userName.empty()) {
+                return "I don't know your name yet. Tell me with 'my name is ...'";
+            } else {
+                return "Your name is " + userName + ".";
+            }
+        }
+
         // ---------- Greetings ----------
-        if (input.find("hello") != std::string::npos || input.find("hi") != std::string::npos || input.find("hey") != std::string::npos) {
-            std::vector<std::string> greetings = {
-                "Hi! I'm Allia.",
-                "Hey there!",
-                "Hello! Good to hear from you.",
-                "Hey! What's going on?"
-            };
+        else if (input.find("hello") != std::string::npos || input.find("hi") != std::string::npos || input.find("hey") != std::string::npos) {
+            std::vector<std::string> greetings;
+            if (!userName.empty()) {
+                greetings = {
+                    "Hi " + userName + "!",
+                    "Hey there, " + userName + "!",
+                    "Hello again, " + userName + "!"
+                };
+            } else {
+                greetings = {
+                    "Hi! I'm Allia.",
+                    "Hey there!",
+                    "Hello! Good to hear from you.",
+                    "Hey! What's going on?"
+                };
+            }
             return pickRandom(greetings);
         }
 
@@ -52,22 +90,45 @@ namespace AI {
             return "Not much, just running my core systems.";
         } else if (input.find("are you okay") != std::string::npos) {
             return "All systems are stable.";
-        } else if (input.find("thank you") != std::string::npos) {
-            return "You're welcome!";
-        } else if (input.find("thanks") != std::string::npos) {
-            return "Anytime!";
+        }
+
+        else if (input.find("thank you") != std::string::npos || input.find("thanks") != std::string::npos) {
+            std::vector<std::string> thanks = {
+                "You're welcome!",
+                "Anytime!",
+                "Happy to help!"
+            };
+            return pickRandom(thanks);
         }
 
         // ---------- About Allia herself ----------
         else if (input.find("what is your name") != std::string::npos) {
             return "My name is Allia.";
-        } else if (input.find("who are you") != std::string::npos) {
-            return "I'm Allia, an AI assistant built into this system.";
-        } else if (input.find("who made you") != std::string::npos) {
+        }
+
+        else if (input.find("who are you") != std::string::npos) {
+            std::vector<std::string> whoAreYou = {
+                "I'm Allia, an AI assistant built into this system.",
+                "I'm Allia — still learning, still growing.",
+                "I'm the AI running inside Project Allia."
+            };
+            return pickRandom(whoAreYou);
+        }
+
+        else if (input.find("who made you") != std::string::npos) {
             return "I was built by Harrison, as part of Project Allia.";
-        } else if (input.find("what can you do") != std::string::npos) {
-            return "Right now I can respond to a few basic phrases. Soon I'll do a lot more!";
-        } else if (input.find("are you real") != std::string::npos) {
+        }
+
+        else if (input.find("what can you do") != std::string::npos) {
+            std::vector<std::string> whatCanYouDo = {
+                "Right now I can respond to a few basic phrases. Soon I'll do a lot more!",
+                "I can chat, remember your name, and check system status — for now.",
+                "Still early days, but I'm learning new things as we build."
+            };
+            return pickRandom(whatCanYouDo);
+        }
+
+        else if (input.find("are you real") != std::string::npos) {
             return "I'm real code, running on real hardware. Make of that what you will.";
         } else if (input.find("do you have feelings") != std::string::npos) {
             return "Not yet. Right now I just match patterns.";
