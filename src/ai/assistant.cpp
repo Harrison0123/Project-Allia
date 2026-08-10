@@ -124,7 +124,7 @@ namespace AI {
         else if (input.find("who are you") != std::string::npos) {
             std::vector<std::string> whoAreYou = {
                 "I'm Allia, an AI assistant built into this system.",
-                "I'm Allia — still learning, still growing.",
+                "I'm Allia - still learning, still growing.",
                 "I'm the AI running inside Project Allia."
             };
             return pickRandom(whoAreYou);
@@ -137,7 +137,7 @@ namespace AI {
         else if (input.find("what can you do") != std::string::npos) {
             std::vector<std::string> whatCanYouDo = {
                 "Right now I can respond to a few basic phrases. Soon I'll do a lot more!",
-                "I can chat, remember your name, and check system status — for now.",
+                "I can chat, remember your name, and check system status - for now.",
                 "Still early days, but I'm learning new things as we build."
             };
             return pickRandom(whatCanYouDo);

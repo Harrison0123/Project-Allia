@@ -1,0 +1,2 @@
+assistant_name=Allia
+max_attempts=3

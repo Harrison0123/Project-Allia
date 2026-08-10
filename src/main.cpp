@@ -1,6 +1,7 @@
 #include <iostream>
 #include <ctime>
 #include "core/system.h"
+#include "core/config.h"
 #include "ai/assistant.h"
 #include "security/auth.h"
 #include "hardware/device.h"
@@ -13,6 +14,7 @@ int main() {
 
     std::cout << "Allia OS is starting...\n";
 
+    Allia::Config::loadConfig();
     Allia::initializeSystem();
 
     std::cout << "AI Core: Initializing...\n";
@@ -23,7 +25,13 @@ int main() {
 
     std::string passwordAttempt;
     int attempts = 0;
-    const int maxAttempts = 3;
+
+    int maxAttempts = 3;
+    std::string maxAttemptsStr = Allia::Config::get("max_attempts");
+    if (maxAttemptsStr != "") {
+        maxAttempts = std::stoi(maxAttemptsStr);
+    }
+
     bool accessGranted = false;
 
     while (attempts < maxAttempts) {
