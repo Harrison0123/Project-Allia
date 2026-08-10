@@ -2,6 +2,7 @@
 #include <ctime>
 #include "core/system.h"
 #include "core/config.h"
+#include "core/logger.h"
 #include "ai/assistant.h"
 #include "security/auth.h"
 #include "hardware/device.h"
@@ -9,12 +10,12 @@
 
 int main() {
     srand(time(0));
-
     Allia::UI::showWelcomeScreen();
 
     std::cout << "Allia OS is starting...\n";
 
     Allia::Config::loadConfig();
+    Allia::Logger::log("Allia OS starting up");
     Allia::initializeSystem();
 
     std::cout << "AI Core: Initializing...\n";
@@ -44,14 +45,17 @@ int main() {
         }
 
         attempts++;
+        Allia::Logger::log("Failed login attempt");
         std::cout << "Incorrect password. Attempts remaining: " << (maxAttempts - attempts) << "\n";
     }
 
     if (!accessGranted) {
+        Allia::Logger::log("Too many failed attempts - system locked");
         std::cout << "Too many failed attempts. Shutting down.\n";
         return 0;
     }
 
+    Allia::Logger::log("Login successful");
     std::cout << "Access granted.\n\n";
     std::cout << "Talk to Allia (type 'exit' to quit):\n";
 
@@ -64,6 +68,7 @@ int main() {
         std::cout << reply << "\n";
 
         if (userInput == "exit") {
+            Allia::Logger::log("User exited Allia OS");
             break;
         }
     }
